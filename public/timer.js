@@ -96,8 +96,6 @@ class Timer {
 
     calculate(timestamp) {
         var diff = timestamp - this.time;
-        console.log('this.limit:'+this.limit);
-        console.log('this.times:'+this.times);
         // limit (need to allow for the last lap....)
         this.limit[2] -= diff;
         if (this.limit[2] < 0) {
