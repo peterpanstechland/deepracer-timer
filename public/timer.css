@@ -4,8 +4,9 @@
 }
 
 html {
-    background: #00b140;
+    background: #111;
     color: #eee;
+    height: 100%;
     font-family: Menlo, Noto Mono;
 }
 
@@ -90,38 +91,6 @@ html {
     width: 85%;
 }
 
-.bestlap_txt {
-    font-size: 5vw;
-    position: fixed;
-    text-align: center;
-    top: 70%;
-    width: 85%;
-}
-
-.bestlap {
-    font-size: 5vw;
-    position: fixed;
-    text-align: left;
-    top: 70%;
-    width: 85%;
-}
-
-.lastlap_txt {
-    font-size: 5vw;
-    position: fixed;
-    text-align: center;
-    top: 80%;
-    width: 85%;
-}
-
-.lastlap {
-    font-size: 5vw;
-    position: fixed;
-    text-align: left;
-    top: 80%;
-    width: 85%;
-}
-
 .results {
     font-size: 2vw;
     left: 85%;
@@ -130,4 +99,36 @@ html {
     text-align: center;
     top: 2em;
     width: 15%;
+}
+
+#stream {
+    background-color: #00b140;
+    position: fixed;
+    top: 60%;
+    height: 40%;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+}
+
+#session_txt {
+    font-size: 5vw;
+    position: float;
+    text-align: left;
+}
+
+#lapcount_txt {
+    padding-left: 50px;
+}
+
+#bestlap_txt {
+    font-size: 5vw;
+    position: float;
+    text-align: left;
+}
+
+#lastlap_txt {
+    font-size: 5vw;
+    position: float;
 }

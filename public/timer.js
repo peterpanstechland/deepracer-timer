@@ -3,9 +3,11 @@
  */
 
 class Timer {
-    constructor(limiter, display, bestlap, lastlap, results) {
+    constructor(limiter, display, session, lapcount, bestlap, lastlap, results) {
         this.limiter = limiter;
         this.display = display;
+        this.session = session;
+        this.lapcount = lapcount;
         this.bestlap = bestlap;
         this.lastlap = lastlap;
         this.results = results;
@@ -13,21 +15,12 @@ class Timer {
     }
 
     start() {
-        console.log('start:' + this.running);
-
-        if (this.running) {
-            console.log('here');
-            // this.running = false;
-            // document.getElementById('btn_start').innerHTML = "Start";
-        }
-
         if (!this.time) {
             this.time = performance.now();
         }
         if (!this.running) {
             this.running = true;
             requestAnimationFrame(this.step.bind(this));
-            // document.getElementById('btn_start').innerHTML = "Stop";
         }
     }
 
@@ -58,19 +51,24 @@ class Timer {
             return;
         }
         this.records = [];
+        this.sessionLaps = [];
         this.sorted = [];
         this.limit = [3, 0, 0];
         this.carResetCount = 0;
         this.reset();
-        this.bestlap.innerText = '';
-        this.lastlap.innerText = '';
+        this.session.innerText = this.shortFormat(this.limit);
+        this.lapcount.innerText = '0';
+        this.bestlap.innerText = '00:00.000(0)';
+        this.lastlap.innerText = '00:00.000(0)';
         while (this.results.lastChild) {
             this.results.removeChild(this.results.lastChild);
         }
     }
 
     press() {
+        // Pressure switch
         var stamp = new Date().getTime();
+        console.log('stamp:'+stamp);
         if (!this.pressed || (stamp - this.pressed) > 3000) {
             this.lap();
             this.pressed = new Date().getTime();
@@ -98,7 +96,8 @@ class Timer {
 
     calculate(timestamp) {
         var diff = timestamp - this.time;
-
+        console.log('this.limit:'+this.limit);
+        console.log('this.times:'+this.times);
         // limit (need to allow for the last lap....)
         this.limit[2] -= diff;
         if (this.limit[2] < 0) {
@@ -137,13 +136,14 @@ class Timer {
 
     print() {
         this.limiter.innerText = this.format(this.limit);
+        this.session.innerText = this.shortFormat(this.limit);
         this.display.innerText = this.format(this.times) + this.carResetCountTxt(this.carResetCount);
 
-        if (this.limit[0] <= 0 && this.limit[1] <= 30) {
+        if (this.limit[0] <= 0 && this.limit[1] <= 15) {
             this.limiter.classList.add("limiter_red");
             this.limiter.classList.remove("limiter_yellow");
             this.limiter.classList.remove("limiter_normal");
-        } else if (this.limit[0] <= 0 && this.limit[1] <= 60) {
+        } else if (this.limit[0] <= 0 && this.limit[1] <= 30) {
             this.limiter.classList.add("limiter_yellow");
             this.limiter.classList.remove("limiter_normal");
             this.limiter.classList.remove("limiter_red");
@@ -165,54 +165,30 @@ class Timer {
 
         this.records.push(this.times);
         this.sorted = this.records.slice();
+        console.log('this.sorted:' + this.sorted);
         this.sorted.sort(compare);
-        
+
+        console.log(this.records);
+
         // Need to create a complex record to store the reset count with each lap time
+        this.sessionLaps.push({
+            time: this.times,
+            resets: this.carResetCount,
+            valid: true
+        })
+        this.lapcount.innerText = this.sessionLaps.length;
+        
+        console.log(this.sessionLaps)
+
         this.bestlap.innerText = this.format(this.sorted[0]) + this.carResetCountTxt(this.carResetCount);
-    }
-
-    squeeze() {
-        if (this.records.length == 0) {
-            return;
-        }
-
-        let latest = this.records[this.records.length - 1];
-
-        console.log(`squeeze ${this.format(latest)}`);
-
-        this.pause();
-
-        this.times[2] += latest[2];
-        this.times[1] += latest[1];
-        this.times[0] += latest[0];
-        if (this.times[2] >= 1000) {
-            this.times[2] -= 1000;
-            this.times[1] += 1;
-        }
-        if (this.times[1] >= 60) {
-            this.times[1] -= 60;
-            this.times[0] += 1;
-        }
-        if (this.times[0] >= 60) {
-            this.times[0] -= 60
-        }
-        if (this.times[2] < 0) {
-            this.times[2] = 0;
-        }
-
-        this.records.splice(this.records.length - 1, 1);
-        this.sorted = this.records.slice();
-        this.sorted.sort(compare);
-
-        this.bestlap.innerText = this.format(this.sorted[0]);
-
-        this.results.removeChild(this.results.lastChild);
-
-        this.start();
     }
 
     format(times) {
         return `${lpad(times[0], 2)}:${lpad(times[1], 2)}.${lpad(Math.floor(times[2]), 3)}`;
+    }
+
+    shortFormat(times) {
+        return `${lpad(times[0], 2)}:${lpad(times[1], 2)}`;
     }
 
     carResetCountTxt(resetCount) {
@@ -247,8 +223,10 @@ function lpad(value, count) {
 let timer = new Timer(
     document.querySelector('.limiter'),
     document.querySelector('.display'),
-    document.querySelector('.bestlap'),
-    document.querySelector('.lastlap'),
+    document.getElementById('session'),
+    document.getElementById('lapcount'),
+    document.getElementById('bestlap'),
+    document.getElementById('lastlap'),
     document.querySelector('.results')
 );
 
@@ -290,9 +268,6 @@ function exec(name) {
         case 'clear':
             timer.clear();
             break;
-        case 'squeeze':
-            timer.squeeze();
-            break;
     }
 }
 
@@ -302,7 +277,6 @@ let key_map = {
     '69': 'lap', // e
     '82': 'reset', // r
     '84': 'clear', // t
-    '89': 'squeeze', // y
 };
 
 document.addEventListener('keydown', function (event) {
