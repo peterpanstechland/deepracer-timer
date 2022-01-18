@@ -1,6 +1,6 @@
 {
   "name": "deepracer-timer",
-  "version": "v0.3.0",
+  "version": "v0.4.0",
   "description": "Node.js deepracer-timer",
   "main": "server.js",
   "dependencies": {
@@ -24,11 +24,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/nalbam/deepracer-timer.git"
+    "url": "http://github.com/davidfsmith/deepracer-timer.git"
   },
-  "author": "Jungyoul Yu <me@nalbam.com>",
+  "contributors": [
+    {
+      "name": "Jungyoul Yu",
+      "email": "<me@nalbam.com>"
+    },
+    {
+      "name": "David Smith",
+      "email": "dave@dave-smith.co.uk"
+    }
+  ],
   "bugs": {
-    "url": "http://github.com/nalbam/deepracer-timer/issues"
+    "url": "http://github.com/davidfsmith/deepracer-timer/issues"
   },
-  "homepage": "http://github.com/nalbam/deepracer-timer"
+  "homepage": "http://github.com/davidfsmith/deepracer-timer"
 }

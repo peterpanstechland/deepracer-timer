@@ -1,7 +1,8 @@
 # deepracer-timer
 
-[![GitHub Actions status](https://github.com/nalbam/deepracer-timer/workflows/Build-Push/badge.svg)](https://github.com/nalbam/deepracer-timer/actions)
-[![GitHub Releases](https://img.shields.io/github/release/nalbam/deepracer-timer.svg)](https://github.com/nalbam/deepracer-timer/releases)
+Original code based on the [code](https://github.com/nalbam/deepracer-timer) and also this [blog post](https://blog.nalbam.com/3318).
+
+I've removed a lot of the code I don't currently need and changed / tidied for my needs running [AWS DeepRacer](https://aws.amazon.com/deepracer/) events.
 
 ## usage
 
@@ -16,6 +17,8 @@
 ## screen
 
 ![screen](images/screen.png)
+
+The green area exists to be used when streaming events using OBS by adding in as a video source and then using a chroma key filter.
 
 ## keymap
 
