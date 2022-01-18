@@ -163,7 +163,6 @@ class Timer {
 
         this.records.push(this.times);
         this.sorted = this.records.slice();
-        console.log('this.sorted:' + this.sorted);
         this.sorted.sort(compare);
 
         console.log(this.records);
