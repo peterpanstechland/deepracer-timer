@@ -133,7 +133,7 @@ class Timer {
     }
 
     print() {
-        this.limiter.innerText = this.format(this.limit);
+        this.limiter.innerText = this.shortFormat(this.limit);
         this.session.innerText = this.shortFormat(this.limit);
         this.display.innerText = this.format(this.times) + this.carResetCountTxt(this.carResetCount);
 
