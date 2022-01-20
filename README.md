@@ -1,6 +1,6 @@
 # deepracer-timer
 
-Original code based on the [code](https://github.com/nalbam/deepracer-timer) and also this [blog post](https://blog.nalbam.com/3318).
+Original code based on this [code](https://github.com/nalbam/deepracer-timer) and also this [blog post](https://blog.nalbam.com/3318) both written by Jungyoul Yu.
 
 I've removed a lot of the code I don't currently need and changed / tidied for my needs running [AWS DeepRacer](https://aws.amazon.com/deepracer/) events.
 
