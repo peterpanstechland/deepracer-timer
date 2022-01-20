@@ -67,11 +67,15 @@ class Timer {
 
     press() {
         // Pressure switch
-        var stamp = new Date().getTime();
-        console.log('stamp:'+stamp);
-        if (!this.pressed || (stamp - this.pressed) > 3000) {
-            this.lap();
-            this.pressed = new Date().getTime();
+        if (!this.time) {
+            // Timer not running
+            this.start();
+        } else {
+            var stamp = new Date().getTime();
+            if (!this.pressed || (stamp - this.pressed) > 3000) {
+                this.lap();
+                this.pressed = new Date().getTime();
+            }
         }
     }
 
@@ -232,7 +236,7 @@ let timer = new Timer(
 let socket = io();
 
 socket.on('timer', function (name) {
-    console.log(`socket timer ${name}`);
+    console.log('socket timer:'+ name);
     exec(name);
 });
 
