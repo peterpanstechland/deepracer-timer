@@ -1,8 +1,10 @@
 # deepracer-timer
 
-Original code based on this [code](https://github.com/nalbam/deepracer-timer) and also this [blog post](https://blog.nalbam.com/3318) both written by Jungyoul Yu.
+Original concept and [code](https://github.com/nalbam/deepracer-timer) by Jungyoul Yu see his [blog post](https://blog.nalbam.com/3318) for more details.
 
 I've removed a lot of the code I don't currently need and changed / tidied for my needs running [AWS DeepRacer](https://aws.amazon.com/deepracer/) events.
+
+Additionally if the timer isn't already running then it will start when the car drives over the pressure switch.
 
 ## usage
 
