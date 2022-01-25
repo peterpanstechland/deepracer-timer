@@ -157,13 +157,12 @@ class Timer {
     }
 
     record() {
+        // TODO: Tidy this section and change timing code to use milliseconds throughout
         let li = document.createElement('li');
         let lapText = this.format(this.times) + this.carResetCountTxt(this.carResetCount);
         this.lastlap.innerText = lapText;
         li.innerText = lapText;
         this.results.appendChild(li);
-
-        console.log(`record ${this.format(this.times)}`);
 
         this.records.push(this.times);
         this.sorted = this.records.slice();
@@ -173,15 +172,17 @@ class Timer {
 
         // Need to create a complex record to store the reset count with each lap time
         this.sessionLaps.push({
-            time: this.times,
+            times: this.times,
+            laptime: (this.times[0]*60000)+(this.times[1]*1000)+Math.floor(this.times[2]),
             resets: this.carResetCount,
             valid: true
         })
         this.lapcount.innerText = this.sessionLaps.length;
         
-        console.log(this.sessionLaps)
+        let sortedLaps = this.sessionLaps;
+        sortedLaps.sort((a,b) => a.laptime-b.laptime);
 
-        this.bestlap.innerText = this.format(this.sorted[0]) + this.carResetCountTxt(this.carResetCount);
+        this.bestlap.innerText = this.format(sortedLaps[0].times) + this.carResetCountTxt(sortedLaps[0].resets);
     }
 
     format(times) {
