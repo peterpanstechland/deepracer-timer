@@ -10,8 +10,6 @@ const sockets = {};
 
 const port = process.env.PORT || '3000';
 
-const apiurl = process.env.API_URL || 'https://dev-api-league.nalbam.com/league';
-
 // express
 app.use(express.json())
 app.use(express.static('public'));
@@ -43,11 +41,6 @@ io.on('connection', function (socket) {
     socket.on('timer', function (name) {
         console.log('timer : ', socket.id, name);
         io.sockets.emit('timer', `${name}`);
-    });
-
-    socket.on('league', function (name) {
-        console.log('league : ', socket.id, name);
-        io.sockets.emit('league', `${name}`);
     });
 });
 
