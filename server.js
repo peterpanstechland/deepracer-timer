@@ -23,6 +23,10 @@ app.get('/timer', function (req, res) {
     res.render('timer.ejs', {});
 });
 
+app.get('/view', function (req, res) {
+    res.render('view.ejs', {});
+});
+
 // sockets
 io.on('connection', function (socket) {
     console.log('connection : ', socket.id);
@@ -38,9 +42,9 @@ io.on('connection', function (socket) {
         }
     });
 
-    socket.on('timer', function (name) {
-        console.log('timer : ', socket.id, name);
-        io.sockets.emit('timer', `${name}`);
+    socket.on('timer', msg => {
+        console.log('timer : ', socket.id, msg);
+        io.emit('timer', msg);
     });
 });
 
@@ -51,10 +55,11 @@ http.listen(port, function () {
 
 // gpio
 gpio.on('change', function (channel, value) {
-    console.log(`Channel ${channel} value is now ${value} \t- ${(Math.random() * 100000)}`);
+    // console.log(`Channel ${channel} value is now ${value} \t- ${(Math.random() * 100000)}`);
     switch (channel) {
         case 11:
         case 13:
+            console.log('Pressure Switch');
             io.sockets.emit('timer', 'press');
             break;
     }

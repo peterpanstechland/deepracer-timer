@@ -4,12 +4,13 @@
   "description": "Node.js deepracer-timer",
   "main": "server.js",
   "dependencies": {
-    "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
     "jquery": "^3.6.0",
-    "request": "^2.88.0",
-    "rpi-gpio": "^2.1.5",
-    "socket.io": "^2.3.0"
+    "nodemon": "^2.0.15",
+    "request": "^2.88.2",
+    "rpi-gpio": "^2.1.7",
+    "socket.io": "^4.4.1"
   },
   "engine": {
     "node": "*",
@@ -17,7 +18,8 @@
   },
   "scripts": {
     "build": "npm install -s",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

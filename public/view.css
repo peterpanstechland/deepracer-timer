@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background: #111;
+    color: #eee;
+    height: 100%;
+    font-family: Menlo, Noto Mono;
+}
+
+.controls {
+    position: fixed;
+    text-align: center;
+    top: 1em;
+    width: 100%;
+}
+
+.button {
+    font-size: 3vw;
+    margin: 0 0.5em;
+    text-decoration: none;
+}
+
+.button:first-child {
+    margin-left: 0;
+}
+
+.button:last-child {
+    margin-right: 0;
+}
+
+.button:hover {
+    color: #eee;
+}
+
+.btn_start {
+    color: #3b7;
+}
+
+.btn_pause {
+    color: #fa3;
+}
+
+.btn_lap {
+    color: #4af;
+}
+
+.btn_reset {
+    color: #e43;
+}
+
+.btn_car_reset {
+    color: #ec3;
+}
+
+.btn_not_valid {
+    color: #35e;
+}
+
+.btn_clear {
+    color: #ddd;
+}
+
+.limiter {
+    font-size: 6vw;
+    position: fixed;
+    text-align: center;
+    top: 25%;
+    width: 85%;
+}
+
+.limiter_normal {
+    color: #ddd;
+}
+
+.limiter_yellow {
+    color: #ea5;
+}
+
+.limiter_red {
+    color: #e55;
+}
+
+.display {
+    font-size: 10vw;
+    position: fixed;
+    text-align: center;
+    top: 40%;
+    width: 85%;
+}
+
+.results {
+    font-size: 2vw;
+    left: 85%;
+    list-style: none;
+    position: fixed;
+    text-align: center;
+    top: 2em;
+    width: 15%;
+}
+
+#stream {
+    background-color: #00b140;
+    position: fixed;
+    top: 60%;
+    height: 40%;
+    width: 70%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+}
+
+#session_txt {
+    font-size: 5vw;
+    position: float;
+    text-align: left;
+}
+
+#lapcount_txt {
+    padding-left: 50px;
+}
+
+#bestlap_txt {
+    font-size: 5vw;
+    position: float;
+    text-align: left;
+}
+
+#lastlap_txt {
+    font-size: 5vw;
+    position: float;
+}

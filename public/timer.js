@@ -2,6 +2,22 @@
  * timer.js
  */
 
+// ** socket.io //
+
+let socket = io();
+
+socket.on('timer', function (name) {
+    // console.log('on:'+ name);
+    exec(name);
+});
+
+function send(data) {
+    console.log('send:', data);
+    socket.emit('timer', data);
+}
+
+// ** socket.io //
+
 class Timer {
     constructor(limiter, display, session, lapcount, bestlap, lastlap, results) {
         this.limiter = limiter;
@@ -54,6 +70,7 @@ class Timer {
         this.sessionLaps = [];
         this.sorted = [];
         this.limit = [3, 0, 0];
+        this.lastSecond = this.limit[1];
         this.carResetCount = 0;
         this.reset();
         this.session.innerText = this.shortFormat(this.limit);
@@ -63,6 +80,11 @@ class Timer {
         while (this.results.lastChild) {
             this.results.removeChild(this.results.lastChild);
         }
+
+        send({
+            type: 'clear',
+            limit: this.limit
+        });
     }
 
     press() {
@@ -85,7 +107,8 @@ class Timer {
     }
 
     carReset() {
-        this.carResetCount++
+        this.carResetCount++;
+        // send({ type: 'reset' });
     }
 
     step(timestamp) {
@@ -140,6 +163,16 @@ class Timer {
         this.limiter.innerText = this.shortFormat(this.limit);
         this.session.innerText = this.shortFormat(this.limit);
         this.display.innerText = this.format(this.times) + this.carResetCountTxt(this.carResetCount);
+        
+        // TODO - Prevent this sending 60+ times / second
+        // console.log('print:', this.limit[1]), this.lastSecond;   // seconds
+        if (this.lastSecond != this.limit[1]) {
+            this.lastSecond = this.limit[1];
+            send({
+                type: 'time',
+                time: this.shortFormat(this.limit)
+            });
+        }
 
         if (this.limit[0] <= 0 && this.limit[1] <= 15) {
             this.limiter.classList.add("limiter_red");
@@ -168,7 +201,7 @@ class Timer {
         this.sorted = this.records.slice();
         this.sorted.sort(compare);
 
-        console.log(this.records);
+        // console.log(this.records);
 
         // Need to create a complex record to store the reset count with each lap time
         this.sessionLaps.push({
@@ -181,6 +214,14 @@ class Timer {
         
         let sortedLaps = this.sessionLaps;
         sortedLaps.sort((a,b) => a.laptime-b.laptime);
+
+        send({
+            type: 'lap',
+            thisLapValid: true,
+            lapCount: this.sessionLaps.length,
+            lastLap: lapText,
+            bestLap: this.format(sortedLaps[0].times) + this.carResetCountTxt(sortedLaps[0].resets),
+        });
 
         this.bestlap.innerText = this.format(sortedLaps[0].times) + this.carResetCountTxt(sortedLaps[0].resets);
     }
@@ -232,21 +273,6 @@ let timer = new Timer(
     document.querySelector('.results')
 );
 
-// ** socket.io //
-
-let socket = io();
-
-socket.on('timer', function (name) {
-    console.log('socket timer:'+ name);
-    exec(name);
-});
-
-function send(name) {
-    socket.emit('timer', name);
-}
-
-// ** socket.io //
-
 function exec(name) {
     switch (name) {
         case 'start':
@@ -284,7 +310,7 @@ let key_map = {
 document.addEventListener('keydown', function (event) {
     console.log(`keydown ${event.keyCode} : ${key_map[event.keyCode]}`);
 
-    send(key_map[event.keyCode]);
+    send(key_map[event.keyCode], {});
 });
 
 function btn_listener(event) {
