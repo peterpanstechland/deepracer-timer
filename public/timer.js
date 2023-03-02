@@ -305,6 +305,10 @@ let key_map = {
     '69': 'lap', // e
     '82': 'reset', // r
     '84': 'clear', // t
+    '65': 'start',
+    '83': 'pause',
+    '68': 'lap',
+    '70': 'reset',
 };
 
 document.addEventListener('keydown', function (event) {
